@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For You, Brother 🕯️</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Nunito:wght@400;600;700;900&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===================== PAGES ===================== */
+    .page {
+      display: none;
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+    .page.active { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+    /* ===================== PAGE 1 ===================== */
+    #page1 {
+      background: radial-gradient(ellipse at bottom, #1a1000 0%, #0a0a0a 70%);
+    }
+
+    /* Lanterns */
+    .lanterns-container {
+      position: fixed;
+      bottom: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .lantern {
+      position: absolute;
+      bottom: -80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: riseUp linear infinite;
+    }
+
+    .lantern-body {
+      width: 28px;
+      height: 38px;
+      background: radial-gradient(ellipse at center, #ffe566 10%, #ffaa00 60%, #ff7700 100%);
+      border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+      box-shadow:
+        0 0 18px 8px rgba(255, 200, 50, 0.5),
+        0 0 40px 16px rgba(255, 150, 0, 0.3),
+        inset 0 0 10px rgba(255,255,200,0.6);
+      position: relative;
+    }
+
+    .lantern-top {
+      width: 16px;
+      height: 6px;
+      background: #cc8800;
+      border-radius: 4px 4px 0 0;
+      margin-bottom: -2px;
+    }
+
+    .lantern-bottom {
+      width: 10px;
+      height: 14px;
+      background: linear-gradient(to bottom, #ffaa00, transparent);
+      border-radius: 0 0 4px 4px;
+      margin-top: -2px;
+      opacity: 0.7;
+    }
+
+    .lantern-glow {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 14px;
+      height: 14px;
+      background: rgba(255,240,150,0.9);
+      border-radius: 50%;
+      filter: blur(3px);
+      animation: flicker 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes flicker {
+      0%   { opacity: 0.7; transform: translate(-50%,-50%) scale(0.9); }
+      100% { opacity: 1;   transform: translate(-50%,-50%) scale(1.1); }
+    }
+
+    @keyframes riseUp {
+      0%   { transform: translateY(0) translateX(0px); opacity: 0; }
+      5%   { opacity: 1; }
+      90%  { opacity: 0.8; }
+      100% { transform: translateY(-110vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* Page 1 content */
+    #page1 .content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .msg-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 220, 100, 0.3);
+      border-radius: 24px;
+      padding: 48px 52px;
+      max-width: 520px;
+      text-align: center;
+      backdrop-filter: blur(12px);
+      box-shadow:
+        0 0 60px rgba(255,180,0,0.12),
+        0 0 120px rgba(255,140,0,0.06),
+        0 8px 32px rgba(0,0,0,0.4),
+        inset 0 0 40px rgba(255,180,0,0.03);
+    }
+
+    .msg-box h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.4rem, 5vw, 2.2rem);
+      font-weight: 600;
+      letter-spacing: 2px;
+      line-height: 1.7;
+      margin-bottom: 10px;
+      background: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #ffe8a0 30%,
+        #ffcc44 60%,
+        #ff9900 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter:
+        drop-shadow(0 0 8px rgba(255, 200, 80, 0.95))
+        drop-shadow(0 0 20px rgba(255, 160, 30, 0.75))
+        drop-shadow(0 0 45px rgba(255, 120, 0, 0.5))
+        drop-shadow(0 0 90px rgba(255, 80, 0, 0.25));
+      animation: textBreath 3s ease-in-out infinite;
+    }
+
+    @keyframes textBreath {
+      0%, 100% { filter: drop-shadow(0 0 8px rgba(255,200,80,0.95)) drop-shadow(0 0 20px rgba(255,160,30,0.75)) drop-shadow(0 0 45px rgba(255,120,0,0.5)); }
+      50%       { filter: drop-shadow(0 0 14px rgba(255,220,120,1)) drop-shadow(0 0 35px rgba(255,180,50,0.9)) drop-shadow(0 0 70px rgba(255,140,0,0.65)) drop-shadow(0 0 120px rgba(255,100,0,0.35)); }
+    }
+
+    .msg-box .sub-emoji {
+      font-size: 2rem;
+      margin-bottom: 32px;
+      display: block;
+    }
+
+    /* Buttons */
+    .proceed-btn {
+      display: inline-block;
+      margin-top: 36px;
+      padding: 14px 44px;
+      background: linear-gradient(135deg, #ffb300, #ff8c00);
+      color: #1a0a00;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      font-weight: 900;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      box-shadow: 0 0 24px rgba(255,160,0,0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .proceed-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 36px rgba(255,160,0,0.6);
+    }
+
+    /* ===================== PAGE 2 ===================== */
+    #page2 {
+      background: radial-gradient(ellipse at top left, #0d1b2a 0%, #0a1520 40%, #070e14 100%);
+    }
+
+    #page2 .content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      gap: 40px;
+      width: 100%;
+      max-width: 640px;
+    }
+
+    .blue-box {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(100, 180, 255, 0.2);
+      border-radius: 24px;
+      padding: 40px 48px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 60px rgba(50,120,255,0.07);
+    }
+
+    .blue-box h2 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.2rem, 4vw, 1.9rem);
+      font-weight: 600;
+      letter-spacing: 2px;
+      line-height: 1.7;
+      background: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #d0eeff 30%,
+        #7ec8ff 65%,
+        #3a9eff 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter:
+        drop-shadow(0 0 8px rgba(100, 180, 255, 1))
+        drop-shadow(0 0 22px rgba(60, 140, 255, 0.75))
+        drop-shadow(0 0 50px rgba(30, 100, 255, 0.45));
+      animation: blueBreath 3.5s ease-in-out infinite;
+    }
+
+    @keyframes blueBreath {
+      0%, 100% { filter: drop-shadow(0 0 8px rgba(100,180,255,1)) drop-shadow(0 0 22px rgba(60,140,255,0.75)) drop-shadow(0 0 50px rgba(30,100,255,0.45)); }
+      50%       { filter: drop-shadow(0 0 15px rgba(150,210,255,1)) drop-shadow(0 0 40px rgba(80,160,255,0.9)) drop-shadow(0 0 80px rgba(40,120,255,0.6)) drop-shadow(0 0 130px rgba(20,80,255,0.3)); }
+    }
+
+    .video-placeholder {
+      width: 100%;
+      max-width: 560px;
+      aspect-ratio: 16/9;
+      background: rgba(255,255,255,0.04);
+      border: 2px dashed rgba(100,180,255,0.25);
+      border-radius: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: rgba(255,255,255,0.3);
+      font-size: 0.9rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .video-placeholder video {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 16px;
+    }
+
+    .video-placeholder .placeholder-text {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .video-placeholder .placeholder-text span:first-child {
+      font-size: 2.5rem;
+    }
+
+    .upload-input { display: none; }
+
+    .after-video-text {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.1rem, 3.5vw, 1.6rem);
+      letter-spacing: 1.5px;
+      text-align: center;
+      background: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #b8dcff 40%,
+        #60b8ff 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter:
+        drop-shadow(0 0 10px rgba(120, 190, 255, 1))
+        drop-shadow(0 0 28px rgba(80, 150, 255, 0.75))
+        drop-shadow(0 0 60px rgba(50, 110, 255, 0.4));
+      animation: blueBreath 3s ease-in-out infinite;
+    }
+
+    .proceed-btn-blue {
+      display: inline-block;
+      padding: 14px 44px;
+      background: linear-gradient(135deg, #4a9eff, #1a6bcc);
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      font-weight: 900;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 0 24px rgba(74,158,255,0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .proceed-btn-blue:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 36px rgba(74,158,255,0.55);
+    }
+
+    /* Floating stars page 2 */
+    .stars {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .star {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      animation: twinkle ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.1; transform: scale(1); }
+      50%       { opacity: 0.8; transform: scale(1.3); }
+    }
+
+    /* ===================== PAGE 3 ===================== */
+    #page3 {
+      background: radial-gradient(ellipse at bottom right, #150a00 0%, #0d0d0d 60%, #050505 100%);
+    }
+
+    #page3 .content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 20px;
+      gap: 44px;
+      width: 100%;
+      max-width: 680px;
+    }
+
+    .final-text {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,200,100,0.18);
+      border-radius: 24px;
+      padding: 44px 48px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.1rem, 2.8vw, 1.35rem);
+      font-weight: 300;
+      letter-spacing: 0.5px;
+      color: #f5e4c0;
+      line-height: 2.2;
+      text-align: center;
+      box-shadow:
+        0 0 60px rgba(200,100,0,0.08),
+        inset 0 0 60px rgba(255,160,0,0.02);
+      text-shadow:
+        0 0 8px rgba(255, 210, 130, 0.7),
+        0 0 20px rgba(255, 165, 50, 0.4),
+        0 0 45px rgba(255, 120, 0, 0.2);
+      animation: warmBreath 4s ease-in-out infinite;
+    }
+
+    .final-text strong {
+      font-family: 'Cinzel', serif;
+      font-size: 1.15em;
+      font-weight: 600;
+      letter-spacing: 2px;
+      background: linear-gradient(180deg, #fff5cc 0%, #ffd060 40%, #ff9900 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter:
+        drop-shadow(0 0 10px rgba(255, 210, 80, 1))
+        drop-shadow(0 0 28px rgba(255, 160, 30, 0.8))
+        drop-shadow(0 0 60px rgba(255, 100, 0, 0.5));
+    }
+
+    @keyframes warmBreath {
+      0%, 100% { text-shadow: 0 0 8px rgba(255,210,130,0.7), 0 0 20px rgba(255,165,50,0.4), 0 0 45px rgba(255,120,0,0.2); }
+      50%       { text-shadow: 0 0 14px rgba(255,220,150,0.9), 0 0 35px rgba(255,175,60,0.6), 0 0 70px rgba(255,130,0,0.35); }
+    }
+
+    .candle-footer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .candle-icon {
+      font-size: 2.5rem;
+      animation: flicker 1.8s ease-in-out infinite alternate;
+      filter: drop-shadow(0 0 10px rgba(255,200,50,0.8));
+    }
+
+    .candle-text {
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #ff9900, #ffdd66, #ff9900);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 8px rgba(255,180,50,0.7)) drop-shadow(0 0 20px rgba(255,130,0,0.4));
+      animation: warmBreath 3s ease-in-out infinite;
+    }
+
+    /* Embers floating page 3 */
+    .ember {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #ff8c00;
+      pointer-events: none;
+      z-index: 0;
+      animation: emberRise linear infinite;
+      box-shadow: 0 0 6px 2px rgba(255,140,0,0.5);
+    }
+
+    @keyframes emberRise {
+      0%   { transform: translateY(0) translateX(0); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 0.5; }
+      100% { transform: translateY(-80vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* Page transitions */
+    .page { animation: fadeIn 0.8s ease; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== PAGE 1 ===== -->
+  <div class="page active" id="page1">
+    <div class="lanterns-container" id="lanternsContainer"></div>
+    <div class="content">
+      <div class="msg-box">
+        <span class="sub-emoji">🕯️</span>
+        <h1>Hey brother..<br>I'm sorry for your loss.</h1>
+        <button class="proceed-btn" onclick="goTo(2)">Continue →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PAGE 2 ===== -->
+  <div class="page" id="page2">
+    <div class="stars" id="starsContainer"></div>
+    <div class="content">
+
+      <div class="blue-box">
+        <h2>I know it must be harsh for you.</h2>
+      </div>
+
+      <!-- Video 1 -->
+      <div class="video-placeholder" id="vid1Container">
+        <video id="vid1" autoplay playsinline loop src="video1.mp4"></video>
+      </div>
+
+      <p class="after-video-text">You're not alone — I got you. 🤝</p>
+
+      <button class="proceed-btn-blue" onclick="goTo(3)">Continue →</button>
+
+    </div>
+  </div>
+
+  <!-- ===== PAGE 3 ===== -->
+  <div class="page" id="page3">
+    <div class="content">
+
+      <!-- Video 2 -->
+      <div class="video-placeholder" id="vid2Container">
+        <video id="vid2" autoplay playsinline loop src="video2.mp4"></video>
+      </div>
+
+      <div class="final-text">
+        I know how you must be feeling rn — you can cry your heart out as much as you'd like to 🫂🫂<br><br>
+        You can take as much time as you'd like to. I know how much your dog meant to you.<br><br>
+        I loved your videos you sent on gc with your dog. I am sorry from the bottom of my heart for what happened..<br><br>
+        Hopefully things do get better for you mate, but just letting you know brother — you're not alone okay?<br><br>
+        Don't overdo yourself. Don't be too harsh on yourself either. Take your time and don't forget to take enough rest.<br><br>
+        Once again, I'm sorry for your loss and yeah..<br><br>
+        <strong>RIP to her 🕯️</strong>
+      </div>
+
+      <div class="candle-footer">
+        <span class="candle-icon">🕯️</span>
+        <span class="candle-text">always in our hearts</span>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // ---- Page navigation ----
+    function goTo(num) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      const next = document.getElementById('page' + num);
+      next.classList.add('active');
+      window.scrollTo(0, 0);
+
+      if (num === 2) {
+        initStars();
+        const v = document.getElementById('vid1');
+        if (v.src) v.play();
+      }
+      if (num === 3) {
+        initEmbers();
+        const v = document.getElementById('vid2');
+        if (v.src) v.play();
+      }
+    }
+
+
+
+    // ---- Lanterns ----
+    (function initLanterns() {
+      const container = document.getElementById('lanternsContainer');
+      const count = 22;
+      for (let i = 0; i < count; i++) {
+        const wrap = document.createElement('div');
+        wrap.className = 'lantern';
+
+        const left = Math.random() * 100;
+        const duration = Math.random() * 14 + 10;
+        const delay = Math.random() * 18;
+        const drift = (Math.random() - 0.5) * 120;
+        const scale = Math.random() * 0.5 + 0.7;
+
+        wrap.style.left = left + 'vw';
+        wrap.style.setProperty('--drift', drift + 'px');
+        wrap.style.animation = `riseUp ${duration}s ${delay}s linear infinite`;
+        wrap.style.transform = `scale(${scale})`;
+
+        wrap.innerHTML = `
+          <div class="lantern-top"></div>
+          <div class="lantern-body"><div class="lantern-glow"></div></div>
+          <div class="lantern-bottom"></div>
+        `;
+        container.appendChild(wrap);
+      }
+    })();
+
+    // ---- Stars for page 2 ----
+    function initStars() {
+      const container = document.getElementById('starsContainer');
+      if (container.children.length > 0) return;
+      for (let i = 0; i < 80; i++) {
+        const s = document.createElement('div');
+        s.className = 'star';
+        const size = Math.random() * 2.5 + 1;
+        s.style.width = size + 'px';
+        s.style.height = size + 'px';
+        s.style.left = Math.random() * 100 + 'vw';
+        s.style.top = Math.random() * 100 + 'vh';
+        s.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        s.style.animationDelay = (Math.random() * 4) + 's';
+        container.appendChild(s);
+      }
+    }
+
+    // ---- Embers for page 3 ----
+    function initEmbers() {
+      // Only init once
+      if (document.querySelectorAll('.ember').length > 0) return;
+      for (let i = 0; i < 20; i++) {
+        const e = document.createElement('div');
+        e.className = 'ember';
+        const left = Math.random() * 100;
+        const duration = Math.random() * 6 + 5;
+        const delay = Math.random() * 10;
+        const drift = (Math.random() - 0.5) * 80;
+        const size = Math.random() * 3 + 2;
+        e.style.width = size + 'px';
+        e.style.height = size + 'px';
+        e.style.left = left + 'vw';
+        e.style.bottom = '0';
+        e.style.setProperty('--drift', drift + 'px');
+        e.style.animation = `emberRise ${duration}s ${delay}s linear infinite`;
+        document.getElementById('page3').appendChild(e);
+      }
+    }
+  </script>
+
+</body>
+</html>
